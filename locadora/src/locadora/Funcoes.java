@@ -5,16 +5,7 @@ import java.util.Scanner;
 
 public class Funcoes {
 	
-	//Em vários lugares eu declaro variáveis dentro de loops por ser mais conveniente. 
-	//Eu imaginei que poderia ser uma má prática, mas isto aqui me fez mudar de idéia:
-	//https://stackoverflow.com/questions/4501482/java-declaring-variables-in-for-loops
 	
-	//Os métodos e atributos desta classe são declarados como static porque são chamados 
-	// a partir de main, que é declarado como static. Isso evita o erro:
-	//Cannot make a static reference to the non-static method
-	// Para evitar isso seria necessário instanciar um objeto desta classe  
-	// e chamar os métodos do objeto, que é a forma como operamos com Carro e Cliente
-	//Em outras palavras, um método static pode ser chamado sem a necessidade de criar uma instância da classe.
 	
 	public static final String ARQ_VEICULOS="carros.txt";
 	public static final String ARQ_CLIENTES="clientes.txt";
@@ -60,17 +51,18 @@ public class Funcoes {
 		}
 	
 	public static void imprimirFrota(Carro carros[], boolean todos) {
-	    //Imprime a frota
+	   
 		for (int i=0; i<(Carro.getTotalCarros()); i++) {
 
-			boolean alugado= !(carros[i].getAlugadoPor().equalsIgnoreCase(""));
-				if (todos || !alugado ) {
+			boolean alugado=! (carros[i].getAlugadoPor().equalsIgnoreCase(""));
+				if (todos || !alugado ) 
 					imprimirCarroPeloIndice(carros, i);
-				}
+					}
+				
 			
-		}
 		
-	}
+		
+}
 
 	public static void imprimirAlugados(Carro carros[], Cliente clientes[]) {
 
@@ -95,7 +87,7 @@ public class Funcoes {
 		do {
 			System.out.println("Digite o código do carro que deseja devolver:");
 			resposta=scan.nextLine();
-			resposta=resposta.replaceAll("\\D",""); //removo tudo o que não for numérico
+			resposta=resposta.replaceAll("\\D",""); 
 		} while (resposta.equals("")|| (Integer.parseInt(resposta)>Carro.getTotalCarros())); 
 		
 		String veiculo= resposta;
@@ -111,7 +103,7 @@ public class Funcoes {
 		        			achei=true;
 		        			System.out.println("Qual a kilometragem atual do veículo?");
 		        			resposta=scan.nextLine();
-		        			resposta=resposta.replaceAll("\\D",""); //removo tudo o que não for numérico
+		        			resposta=resposta.replaceAll("\\D",""); 
 		        			
 		        			if (Integer.parseInt(resposta)< car[i].getKmRodados()) {
 		        				System.out.println("Este número é menor que o anterior.");
@@ -145,7 +137,7 @@ public class Funcoes {
 		        	
 				}
 		}
-		return -1; //carro não encontrado
+		return -1; 
 		
 	}
 	
@@ -206,7 +198,7 @@ public class Funcoes {
 			}
 		
 	}
-		return ""; //Se nada foi achado;
+		return ""; 
 	}
 	
 	public static boolean alugarVeiculo(Carro car[], Cliente cl[], Scanner scan) {
@@ -215,13 +207,13 @@ public class Funcoes {
 		if (cliente==0) return false;
 		//--------------------------------------------------------------------------------
 		
-		imprimirFrota(car, false); //com false eu imprimo apenas os carros disponíveis
+		imprimirFrota(car, false); 
 
 		String resposta="";
 		do {
 			System.out.println("Digite o código do carro que deseja alugar:");
 			resposta=scan.nextLine();
-			resposta=resposta.replaceAll("\\D",""); //removo tudo o que não for numérico
+			resposta=resposta.replaceAll("\\D",""); 
 		} while (resposta.equals("")|| (Integer.parseInt(resposta)>Carro.getTotalCarros())); 
 		
 		String veiculo= resposta;
@@ -233,8 +225,7 @@ public class Funcoes {
 		String opcao=scan.nextLine();
 		if (opcao.equalsIgnoreCase("s")) {
 			cl[cliente].setDataAluguel(getDataAtual());	
-			//TODO: usar o indice do cliente vai criar problemas quando um cliente for apagado. 
-			//O correto é usar um código de cliente
+			
 			car[indexVeiculo].setAlugadoPor(Integer.toString(cliente));
 			System.out.println("Aluguel registrado.");
 			return true;
@@ -281,11 +272,9 @@ public class Funcoes {
 		   } catch (java.io.IOException e) {
 			    e.printStackTrace();
 		   }
-		/*TODO: Fazer com que o código possa detectar que o arquivo acabou e assim
-		 * evitar esse NullPointerException
-		 */
+		
 	   		catch (java.lang.NullPointerException e1) {
-			    //e1.printStackTrace();
+			   
 			    System.out.println("NullPointerException em carregarVeiculos()");
 			    System.out.println("A causa mais comum para isso é a primeira linha de carros.txt");
 			    System.out.println("estar definindo um número maior de veículos do que o real.");
@@ -298,7 +287,7 @@ public class Funcoes {
 		try {
 			java.io.FileReader reader = new java.io.FileReader(ARQ_CLIENTES);
 		    java.io.BufferedReader bufferedReader = new java.io.BufferedReader(reader);
-		    //A primeira linha do arquivo armazena o número de clientes a ler
+		   
 		    int numCLientesToImport=Integer.parseInt(bufferedReader.readLine());
 		    
 		    for (int i=0; i<numCLientesToImport; i++) {
@@ -326,9 +315,7 @@ public class Funcoes {
 		   } catch (java.io.IOException e) {
 		    e.printStackTrace();
 		   }
-		/*TODO: Fazer com que o código possa detectar que o arquivo acabou e assim
-		 * evitar esse NullPointerException
-		 */
+		
    		catch (java.lang.NullPointerException e1) {
 		    //e1.printStackTrace();
 		    System.out.println("NullPointerException em carregarClientes()");
@@ -403,7 +390,7 @@ public class Funcoes {
 		String opcao=scan.nextLine();
 		if (opcao.equalsIgnoreCase("s")) {
 			int indice= Cliente.getTotalClientes();
-			cl[indice]=cli; //aplico o objeto inteiro na última posição livre do array
+			cl[indice]=cli; 
 			
 			System.out.println("Cliente Cadastrado.");
 			
@@ -417,8 +404,7 @@ public class Funcoes {
 	
 	public static int obterNumCliente(Cliente cl[], Carro car[], Scanner scan) {
 		
-		//TODO: esta função recebe o array car[] apenas para poder repassar para a função seguinte
-		//Existe um jeito de evitar isso?
+		
 		
 		imprimirClientesSimplificado(cl, car);
 		
@@ -427,7 +413,7 @@ public class Funcoes {
 			String resposta="";
 			System.out.println("\nDigite o número do cliente (ou apenas ENTER para cancelar):");
 			resposta=scan.nextLine();
-			resposta=resposta.replaceAll("\\D",""); //removo tudo o que não for numérico
+			resposta=resposta.replaceAll("\\D",""); 
 			if (resposta.equals("")) return 0;
 			numero=Integer.parseInt(resposta);
 		} while ((numero<1)||(numero> Cliente.getTotalClientes()));
@@ -438,8 +424,7 @@ public class Funcoes {
 	
 		Cliente clEditado = new Cliente();
 		
-		//TODO: esta função recebe o array car[] apenas para poder repassar para a função seguinte
-		//Existe um jeito de evitar isso?
+		
 		int numero= obterNumCliente(cl, car, scan);	
 		if (numero==0) return false;
 		
@@ -450,7 +435,7 @@ public class Funcoes {
 		String valorAtual= cl[numero].getNome();
 		System.out.println("Nome ( "+valorAtual+" ): ");
 		resposta= scan.nextLine();
-		if (resposta.isEmpty()) clEditado.setNome(valorAtual); //preservo o valor atual se o usuário respondeu com ENTER
+		if (resposta.isEmpty()) clEditado.setNome(valorAtual); 
 		else {
 			while(!clEditado.setNome(resposta)) {
 				System.out.println("Nome inválido.");
@@ -462,7 +447,7 @@ public class Funcoes {
 		valorAtual= cl[numero].getEndereco();
 		System.out.println("Endereço: ( "+valorAtual+" ): ");
 		resposta= scan.nextLine();
-		if (resposta.isEmpty()) clEditado.setEndereco(valorAtual); //preservo o valor atual se o usuário respondeu com ENTER
+		if (resposta.isEmpty()) clEditado.setEndereco(valorAtual); 
 		else {
 			while(!clEditado.setEndereco(resposta)) {
 				System.out.println("Endereço inválido.");
@@ -475,7 +460,7 @@ public class Funcoes {
 		valorAtual= cl[numero].getTelefone();
 		System.out.println("Telefone: ( "+valorAtual+" ): ");
 		resposta= scan.nextLine();
-		if (resposta.isEmpty()) clEditado.setTelefone(valorAtual); //preservo o valor atual se o usuário respondeu com ENTER
+		if (resposta.isEmpty()) clEditado.setTelefone(valorAtual); 
 		else {
 			while(!clEditado.setTelefone(resposta)) {
 				System.out.println("Telefone inválido.");
@@ -488,7 +473,7 @@ public class Funcoes {
 		valorAtual= cl[numero].getDataNasc();
 		System.out.println("Data de Nascimento (dd/mm/aaaa): ( "+valorAtual+" ): ");
 		resposta= scan.nextLine();
-		if (resposta.isEmpty()) clEditado.setDataNasc(valorAtual); //preservo o valor atual se o usuário respondeu com ENTER
+		if (resposta.isEmpty()) clEditado.setDataNasc(valorAtual); 
 		else {
 			while(!clEditado.setDataNasc(resposta)) {
 				System.out.println("Data inválida.");
@@ -500,7 +485,7 @@ public class Funcoes {
 		valorAtual= cl[numero].getCpf();
 		System.out.println("CPF: ( "+valorAtual+" ): ");
 		resposta= scan.nextLine();
-		if (resposta.isEmpty()) clEditado.setCpf(valorAtual); //preservo o valor atual se o usuário respondeu com ENTER
+		if (resposta.isEmpty()) clEditado.setCpf(valorAtual); 
 		else {
 			boolean sucesso=false;
 			do {
@@ -524,7 +509,7 @@ public class Funcoes {
 		valorAtual= cl[numero].getRg();
 		System.out.println("RG: ( "+valorAtual+" ): ");
 		resposta= scan.nextLine();
-		if (resposta.isEmpty()) clEditado.setRg(valorAtual); //preservo o valor atual se o usuário respondeu com ENTER
+		if (resposta.isEmpty()) clEditado.setRg(valorAtual); 
 		else {
 			while(!clEditado.setRg(resposta)) {
 				System.out.println("RG inválido.");
@@ -537,7 +522,7 @@ public class Funcoes {
 		String opcao=scan.nextLine();
 		if (opcao.equalsIgnoreCase("s")) {
 
-			cl[numero]=clEditado; //substituo o objeto inteiro 
+			cl[numero]=clEditado; 
 			
 			System.out.println("Alterações aplicadas.");
 			return true;
@@ -547,25 +532,13 @@ public class Funcoes {
 		}
 	}	
 	
-	/*
-	public static int obterNovoCodCliente(Cliente[] c) {
-		if (numClientesCadastrados==0) return 1;
-		else
-		{
-			int codUltimoCliente= c[numClientesCadastrados-1].getCodCliente(); 
-			return codUltimoCliente+1;
-		}
-		
-		
-	}
-	*/
 	public static void salvarClientes (Cliente[] cl){
 	  
 	try {
 	java.io.BufferedWriter outputWriter = null;
 	  outputWriter = new java.io.BufferedWriter(new java.io.FileWriter(ARQ_CLIENTES));
 	  outputWriter.write(Integer.toString(Cliente.getTotalClientes()));
-	  outputWriter.newLine(); //A primeira linha registra o número de elementos
+	  outputWriter.newLine(); 
 	  for (int i = 0; i < Cliente.getTotalClientes(); i++) {
 
 	    outputWriter.write(cl[i].getNome());
@@ -595,7 +568,7 @@ public class Funcoes {
 		java.io.BufferedWriter outputWriter = null;
 	  outputWriter = new java.io.BufferedWriter(new java.io.FileWriter(ARQ_VEICULOS));
 	  outputWriter.write(Integer.toString(Carro.getTotalCarros()));
-	  outputWriter.newLine(); //A primeira linha registra o número de elementos
+	  outputWriter.newLine();
 	  for (int i = 0; i < Carro.getTotalCarros(); i++) {
 
 	    outputWriter.write(car[i].getFabricante());

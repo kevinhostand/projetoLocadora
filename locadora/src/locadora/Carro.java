@@ -1,11 +1,7 @@
 package locadora;
 
 public class Carro {
-
-
-	/*adicionar qualquer atributo aqui requer alterações também em carros.txt
-	  e nas funções que salvam e carregam os dados do arquivo
-	*/
+	
 	private String registroLoc;
 	private String fabricante;
 	private String modelo;
@@ -15,7 +11,7 @@ public class Carro {
 	private int kmRodados;
 	private String alugadoPor; 
 	private static int totalCarros=0;
-	public static final int max_VEICULOS=30; 
+	public static final int MAX_VEICULOS=30; 
 	
     Carro(){
 		this.fabricante="";

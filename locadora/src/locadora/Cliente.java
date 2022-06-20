@@ -2,9 +2,7 @@ package locadora;
 
 public class Cliente {
 
-	/*adicionar qualquer atributo aqui requer alterações também em clientes.txt
-	e nas funções que salvam e carregam os dados do arquivo
-	*/
+	
 	private int codCliente;	
 	private String nome;
 	private String endereco;
@@ -15,17 +13,11 @@ public class Cliente {
 	private String carroAlugado;
 	private String dataAluguel;
 	private String dataDevolucao;
-	//TODO: Mudar para private e criar métodos de acesso
+	
 	private static int totalClientes=0;
 	public static final int MAX_CLIENTES=20;
 
-	/*
-	 * Por que não usar um construtor mais elaborado, que receba os dados como parâmetros?
-	 * Razão: Usar um contrutor mais elaborado requer que todos os dados do cliente sejam entregues de uma vez e validados também de uma vez.
-	 * Isso tem o efeito de fazer com que o usuário só saiba de um erro após digitar e aplicar todos os dados
-	 * Usar um contrutor simples que simplesmente inicializa todos os atributos e depois chamar os respectivos setters à medida
-	 * que o usuário vai digitando os dados pareceu um modo mais adequado de lidar com o problema.    
-	 */
+	
 	public Cliente() {
 		this.codCliente=0;
 		this.nome="";
@@ -41,12 +33,10 @@ public class Cliente {
 	
 
 
-	//Como armazenamos a data de nascimento, precisamos de um método para calcular a idade 
+	
 	public int getIdade(){
 		java.time.format.DateTimeFormatter dtf = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		// Locale specifies human language for translating, and cultural norms for lowercase/uppercase
-		//and abbreviations and such. Example: Locale.US or Locale.CANADA_FRENCH
-		//dtf = dtf.withLocale( putAppropriateLocaleHere );  
+		 
 		java.time.LocalDate birthDate = java.time.LocalDate.parse(this.dataNasc, dtf);
 		java.time.LocalDate dataAtual = java.time.LocalDate.now();
         if ((birthDate != null) && (dataAtual != null)) {
@@ -56,7 +46,7 @@ public class Cliente {
         }
 	};
 	
-	//usado para dataNasc, dataAluguel e dataDevolucao
+	
 	private boolean validarData(String data){
 		java.text.DateFormat format = new java.text.SimpleDateFormat("dd/MM/yyyy");
 
@@ -73,20 +63,16 @@ public class Cliente {
 	
 
  private boolean validarTelefone(String telefone) {
-	 //Baseado no original para javascript:
-	 //https://gist.github.com/jonathangoncalves/7bdec924e9bd2bdf353d6b7520820b62
-	 
-    //retira todos os caracteres não-numéricos (incluindo espaço,tab, etc)
+
     telefone = telefone.replaceAll("\\D","");
     
-    //verifica se tem a qtde de numeros correta
+    
     if (!(telefone.length() >= 10 && telefone.length() <= 11)) return false;
 
-    //Se tiver 11 caracteres, verificar se começa com 9 o celular
+    
     if (telefone.length() == 11 && Integer.parseInt(telefone.substring(2, 3)) != 9) return false;
 
-    //verifica se o numero foi digitado com todos os dígitos iguais
-    //TODO: criar função e chamar também na validação de CPF
+    
     java.util.regex.Pattern p = java.util.regex.Pattern.compile(telefone.charAt(0)+"{"+telefone.length()+"}");
     java.util.regex.Matcher m = p.matcher(telefone);
     if(m.find()) return false;
@@ -97,25 +83,25 @@ public class Cliente {
         35, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 49, 51, 53, 54, 55, 61, 62,
         64, 63, 65, 66, 67, 68, 69, 71, 73, 74, 75, 77, 79, 81, 82, 83, 84, 85,
         86, 87, 88, 89, 91, 92, 93, 94, 95, 96, 97, 98, 99};
-    //verifica se o DDD é valido (se é um dos códigos no array acima)
+    
     if ( java.util.Arrays.asList(codigosDDD).indexOf(Integer.parseInt(telefone.substring(0, 2))) == -1) return false;
     
-    //Se o número só tiver dez digitos não é um celular e por isso o número logo após o DDD deve ser 2, 3, 4, 5 ou 7 
+   
      if (telefone.length() == 10 &&  "23457".indexOf(telefone.substring(2, 3)) == -1) return false;
 
-    //se passar por todas as validações acima, então está tudo certo
+    
     return true;
 }
  
  private String formatarNumero(String tipo, String numero) {
  
-    numero=numero.replaceAll("\\D", ""); //Removo todos os caracteres não-numéricos
+    numero=numero.replaceAll("\\D", ""); 
     String mascara="";
     
     if (tipo.equalsIgnoreCase("telefone")) {
-		//Neste ponto o telefone ou tem 11 digitos (celulares) ou 10 digitos (fixos)
-		mascara= "(##) #####-####"; //Celulares
-		if (numero.length()==10) mascara="(##) ####-####"; //Telefones fixos
+		
+		mascara= "(##) #####-####";
+		if (numero.length()==10) mascara="(##) ####-####"; 
     }
     if (tipo.equalsIgnoreCase("cpf")) {
 		mascara="###.###.###-##";  
@@ -178,7 +164,7 @@ public class Cliente {
 	};
 	
 	public boolean setTelefone(String telefone){
-		//Estou considerando que neste sistema o telefone não seja obrigatório
+		
 	    if (telefone.contentEquals("")) return true;
 	    
 		if (validarTelefone(telefone)) {
@@ -195,9 +181,7 @@ public class Cliente {
 	};
 	
 	public boolean setRg(String rg){
-		//Checar o RG adequadamente requer solicitar também o órgão expedidor
-		//e conhecer as regras de validação desse órgão
-		
+	
 		if (rg.equals("")) {
 			return false;
 		}
@@ -276,8 +260,7 @@ public class Cliente {
 
 	}	
 	
-	//Usado por isValidCPF().
-	//Infelizmente usar "nested methods" em Java parece ser extraordinarimente complexo
+	
 	private int calcularDigito(String str) {
 		int soma = 0;
 		for(int indice = str.length()-1, digito; indice >= 0; indice--) {
@@ -289,7 +272,7 @@ public class Cliente {
 		return soma > 9 ? 0 : soma;
 	}
 
-   //usado por setCpf()	 
+   
    private boolean isValidCPF(String cpf) {
 	   cpf=cpf.replaceAll("\\D","");
 	   if ((cpf==null) || (cpf.length()!=11) ||

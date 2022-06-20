@@ -1,15 +1,15 @@
 package locadora;
 
 
-public class principal {
+public class Principal {
 
 	public static void main(String[] args){
 
 
-		Carro carros[] = new Carro[Carro.max_VEICULOS] ; //aloco a memória necessária
+		Carro carros[] = new Carro[Carro.MAX_VEICULOS] ; 
 		Funcoes.carregarVeiculos(carros);	
 		
-		int numCarros=Carro.incTotalCarros();
+		int numCarros=Carro.getTotalCarros();
 		if (numCarros==0){
 			System.out.println("\nNenhum carro está cadastrado.\n");
 			System.out.println("Isso provavelmente significa que carros.txt não foi encontrado.\n");
@@ -23,7 +23,7 @@ public class principal {
 		}
 		
 		
-		Cliente clientes[] = new Cliente[Cliente.MAX_CLIENTES] ; //aloco a memória necessária
+		Cliente clientes[] = new Cliente[Cliente.MAX_CLIENTES] ; 
 		Funcoes.carregarClientes(clientes);	
 		
 		String opcao="";
@@ -42,8 +42,8 @@ public class principal {
 		
 		do{
 			//DEBUG
-			System.out.println("totalClientes= " + Cliente.getTotalClientes());
-			System.out.println("totalCarros= " + Carro.getTotalCarros());
+			//System.out.println("totalClientes= " + Cliente.getTotalClientes());
+			//System.out.println("totalCarros= " + Carro.getTotalCarros());
 			
 			String opcoesValidas="0123456789";	
 			
@@ -67,8 +67,7 @@ public class principal {
 
 		opcao = scan.nextLine();
 		
-		//Se eu usar a opção "default" do switch para isso o menu vai ter 
-		//que ser redesenhado a cada erro
+		
 		while (opcoesValidas.indexOf(opcao) == -1) {
 			System.out.print("Opção inválida. As opçoes válidas são ");
 			System.out.println(opcoesValidas + ". Tente novamente.");	
@@ -105,7 +104,7 @@ public class principal {
 			do {
 				System.out.println("Digite o CPF:");
 				resposta=scan.nextLine();
-				resposta=resposta.replaceAll("\\D",""); //removo tudo o que não for numérico
+				resposta=resposta.replaceAll("\\D",""); 
 			} while (resposta.equals("")); 
 			String cliente=Funcoes.buscarClientePeloCPF(clientes, resposta);
 			if (cliente.isEmpty())System.out.println("Não há cliente cadastrado com este CPF");
